@@ -12,8 +12,20 @@ public class WaitUntilPlayerIdleUtil {
     /**
      * Waits until the player is idle.
      * Fixed wait = 500ms * 4 retries = 2s
+     * @param ctx client context
      */
     public static void Wait(ClientContext ctx) {
         Condition.wait(() -> ctx.players.local().animation() == playerIdle, 500, 4);
+    }
+
+    /**
+     * Waits until the player is idle.
+     * Fixed wait = 500ms * 4 retries = 2s
+     * @param ctx client context
+     * @param waitInMs interval to wait in ms
+     * @param retries number of retries for waiting until idle
+     */
+    public static void Wait(ClientContext ctx, int waitInMs, int retries) {
+        Condition.wait(() -> ctx.players.local().animation() == playerIdle, waitInMs, retries);
     }
 }

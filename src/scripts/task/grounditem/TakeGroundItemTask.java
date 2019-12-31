@@ -29,36 +29,37 @@ public class TakeGroundItemTask extends Task<ClientContext> {
     @Override
     public void execute() {
         GroundItem chickenFeather = ctx.groundItems.nearest().poll();
-        int oldChickenFeatherCount = ctx.inventory.select().id(chickenFeatherId).count();
+        int oldChickenFeatherCount = ctx.inventory.select().id(chickenFeatherId).count(true);
 
-        // Move to the feather if necessary
+        // Move to the chicken feather if necessary
         if (!chickenFeather.inViewport()) {
-            System.out.println("Moving to feather.");
+            System.out.println("Moving to chicken feather.");
             ctx.movement.step(chickenFeather);
             ctx.camera.turnTo(chickenFeather);
         }
 
-        // Much better to check inventory count
-        if (WaitBeforeTakeChickenFeather(chickenFeather) || TakeChickenFeatherSuccessful(oldChickenFeatherCount)) {
+        WaitBeforeAndAfterTakeChickenFeather(chickenFeather);
+
+        // Workaround to wait until taking chicken feather has completed
+        if (TakeChickenFeatherSuccessful(oldChickenFeatherCount)) {
             System.out.println("Successful.");
         } else {
-            System.out.println("Picking up feather was unsuccessful.");
+            System.out.println("Picking up chicken feather was unsuccessful.");
         }
 
         System.out.println("...");
-        Condition.sleep(Random.nextInt(1000, 3000));
     }
 
     /**
      * Wait until player is idle then take the chicken feather on the ground.
      * @param chickenFeather chicken feather to pick up
-     * @return if the feather was successfully picked up
      */
-    private boolean WaitBeforeTakeChickenFeather(GroundItem chickenFeather) {
+    private void WaitBeforeAndAfterTakeChickenFeather(GroundItem chickenFeather) {
         System.out.println("Found a feather, picking it up...");
-        WaitUntilPlayerIdleUtil.Wait(ctx);
 
-        return chickenFeather.interact("Take");
+        WaitUntilPlayerIdleUtil.Wait(ctx);
+        chickenFeather.interact("Take");
+        WaitUntilPlayerIdleUtil.Wait(ctx, 1000, 2);
     }
 
     /**
@@ -67,6 +68,6 @@ public class TakeGroundItemTask extends Task<ClientContext> {
      * @return true if feature count increased
      */
     private boolean TakeChickenFeatherSuccessful(int oldChickenFeatherCount) {
-        return ctx.inventory.select().id(chickenFeatherId).count() > oldChickenFeatherCount;
+        return ctx.inventory.select().id(chickenFeatherId).count(true) > oldChickenFeatherCount;
     }
 }
