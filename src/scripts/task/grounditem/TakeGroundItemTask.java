@@ -1,6 +1,7 @@
 package scripts.task.grounditem;
 
 import scripts.task.Task;
+import scripts.util.DropUnwantedItemsUtil;
 import scripts.util.WaitUntilPlayerIdleUtil;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
@@ -20,6 +21,11 @@ public class TakeGroundItemTask extends Task<ClientContext> {
 
     @Override
     public boolean activate() {
+        if (ctx.inventory.isFull()) {
+            System.out.println("Inventory full: dropping unwanted chicken loot.");
+            DropUnwantedItemsUtil.DropAll(ctx);
+        }
+
         // Inventory is not full, chicken feather exists and player is idle
         return !ctx.inventory.isFull()
             && !ctx.groundItems.select().id(chickenFeatherId).isEmpty()
