@@ -2,7 +2,10 @@ package scripts.util;
 
 import org.powerbot.script.rt4.ClientContext;
 
-public class DropUnwantedItemsUtil {
+/**
+ * Utility class for dropping items.
+ */
+public class DropItemsUtil {
     private static int[] unwantedChickenLoot =
     {
         526,  // bones
@@ -17,7 +20,7 @@ public class DropUnwantedItemsUtil {
      * - raw chicken
      * @param ctx client context
      */
-    public static void DropAll(ClientContext ctx) {
+    public static void DropAllUnwantedChickenLoot(ClientContext ctx) {
         ctx.inventory.drop(ctx.inventory.select().id(unwantedChickenLoot));
     }
 }

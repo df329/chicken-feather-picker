@@ -1,7 +1,7 @@
 package scripts.task.grounditem;
 
 import scripts.task.Task;
-import scripts.util.DropUnwantedItemsUtil;
+import scripts.util.DropItemsUtil;
 import scripts.util.WaitUntilPlayerIdleUtil;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.GroundItem;
@@ -21,7 +21,7 @@ public class TakeGroundItemTask extends Task<ClientContext> {
     public boolean activate() {
         if (ctx.inventory.isFull()) {
             System.out.println("Inventory full: dropping unwanted chicken loot.");
-            DropUnwantedItemsUtil.DropAll(ctx);
+            DropItemsUtil.DropAllUnwantedChickenLoot(ctx);
         }
 
         // Inventory is not full, chicken feather exists and player is idle
@@ -69,7 +69,7 @@ public class TakeGroundItemTask extends Task<ClientContext> {
     /**
      * Check if the chicken feather count in the player's inventory has increased.
      * @param oldChickenFeatherCount previous chicken feathers in inventory
-     * @return true if feature count increased
+     * @return true if feather count increased
      */
     private boolean TakeChickenFeatherSuccessful(int oldChickenFeatherCount) {
         return ctx.inventory.select().id(chickenFeatherId).count(true) > oldChickenFeatherCount;
