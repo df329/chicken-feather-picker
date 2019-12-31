@@ -30,3 +30,16 @@ Feature wise it will remain the same, additional features will be spun of into t
   * Mouse movements
   * Walking/idle actions
 * Drop non-feather items - mis-clicks etc.
+* Attack mode configuration
+* UI for number of feathers picked up
+* Door/gate issues
+  * Difficult, probably some localization needed
+
+## Limitations
+
+A few limitations of this script which probably won't be addressed:
+
+* Attack modes - if you're a pure haha XD
+* Guarding against mis-clicks entering combat
+* Optimizations for certain locations
+* It won't go find a chicken feather pit sorry

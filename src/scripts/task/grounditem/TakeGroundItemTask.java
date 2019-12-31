@@ -3,8 +3,6 @@ package scripts.task.grounditem;
 import scripts.task.Task;
 import scripts.util.DropUnwantedItemsUtil;
 import scripts.util.WaitUntilPlayerIdleUtil;
-import org.powerbot.script.Condition;
-import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.GroundItem;
 
