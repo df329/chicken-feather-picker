@@ -1,6 +1,7 @@
 package scripts.task.grounditem;
 
 import scripts.task.Task;
+import scripts.util.WaitUntilPlayerIdleUtil;
 import org.powerbot.script.Condition;
 import org.powerbot.script.Random;
 import org.powerbot.script.rt4.ClientContext;
@@ -27,34 +28,45 @@ public class TakeGroundItemTask extends Task<ClientContext> {
 
     @Override
     public void execute() {
-        boolean pickedUp = false;
+        GroundItem chickenFeather = ctx.groundItems.nearest().poll();
+        int oldChickenFeatherCount = ctx.inventory.select().id(chickenFeatherId).count();
 
-        Condition.sleep(Random.nextInt(350, 500));
-
-        GroundItem whiteFeather = ctx.groundItems.nearest().poll();
-        if (whiteFeather.inViewport()) {
-            System.out.println("Found a feather, picking it up...");
-            pickedUp = whiteFeather.interact("Take");
-
-            // If moving to a feather, wait until the player has arrived
-            Condition.sleep(Random.nextInt(100, 2000));
-        } else {
+        // Move to the feather if necessary
+        if (!chickenFeather.inViewport()) {
             System.out.println("Moving to feather.");
-            ctx.movement.step(whiteFeather);
-            ctx.camera.turnTo(whiteFeather);
-
-            // If moving to a feather, wait until the player has arrived
-            Condition.sleep(Random.nextInt(2000, 4000));
+            ctx.movement.step(chickenFeather);
+            ctx.camera.turnTo(chickenFeather);
         }
 
-        if (!pickedUp) {
-            System.out.println("Picking up feather was unsuccessful.");
-        } else {
+        // Much better to check inventory count
+        if (WaitBeforeTakeChickenFeather(chickenFeather) || TakeChickenFeatherSuccessful(oldChickenFeatherCount)) {
             System.out.println("Successful.");
+        } else {
+            System.out.println("Picking up feather was unsuccessful.");
         }
 
         System.out.println("...");
+        Condition.sleep(Random.nextInt(1000, 3000));
+    }
 
-        Condition.sleep(Random.nextInt(500, 4000));
+    /**
+     * Wait until player is idle then take the chicken feather on the ground.
+     * @param chickenFeather chicken feather to pick up
+     * @return if the feather was successfully picked up
+     */
+    private boolean WaitBeforeTakeChickenFeather(GroundItem chickenFeather) {
+        System.out.println("Found a feather, picking it up...");
+        WaitUntilPlayerIdleUtil.Wait(ctx);
+
+        return chickenFeather.interact("Take");
+    }
+
+    /**
+     * Check if the chicken feather count in the player's inventory has increased.
+     * @param oldChickenFeatherCount previous chicken feathers in inventory
+     * @return true if feature count increased
+     */
+    private boolean TakeChickenFeatherSuccessful(int oldChickenFeatherCount) {
+        return ctx.inventory.select().id(chickenFeatherId).count() > oldChickenFeatherCount;
     }
 }

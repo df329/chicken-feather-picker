@@ -14,7 +14,7 @@ public abstract class Task<C extends ClientContext> extends ClientAccessor<C> {
 
     /**
      * Whether to execute the action.
-     * @return true to execute the action else false.
+     * @return true to execute the action else false
      */
     public abstract boolean activate();
 
