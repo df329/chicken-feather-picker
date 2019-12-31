@@ -11,7 +11,7 @@ import java.util.List;
 
 @Script.Manifest(
     name = "Chicken Feather Picker",
-    properties = "author=Machiavellianism; topic=1296203; client=4;",
+    properties = "author=Machiavellianism; topic=1353781; client=4;",
     description = "Picks up chicken feathers at the Lumbridge farm"
 )
 public class ChickenFeatherPicker extends PollingScript<ClientContext> {
@@ -19,7 +19,7 @@ public class ChickenFeatherPicker extends PollingScript<ClientContext> {
 
     @Override
     public void start() {
-        log.info("Welcome to the basic Feather picker for Lumbridge farm!");
+        log.info("Welcome to the basic chicken feather picker for Lumbridge farm!");
 
         taskList.addAll(Arrays.asList(new TakeGroundItemTask(ctx)));
     }
