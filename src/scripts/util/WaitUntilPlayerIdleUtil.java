@@ -19,8 +19,7 @@ public class WaitUntilPlayerIdleUtil {
     }
 
     /**
-     * Waits until the player is idle.
-     * Fixed wait = 500ms * 4 retries = 2s
+     * Waits until the player is idle using the specified intervals.
      * @param ctx client context
      * @param waitInMs interval to wait in ms
      * @param retries number of retries for waiting until idle
