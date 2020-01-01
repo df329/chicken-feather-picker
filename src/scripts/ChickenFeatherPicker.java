@@ -1,7 +1,8 @@
 package scripts;
 
-import scripts.task.Task;
+import scripts.task.antiban.AntiBanTask;
 import scripts.task.grounditem.TakeGroundItemTask;
+import scripts.task.Task;
 import scripts.ui.ChickenFeatherSummaryUi;
 
 import org.powerbot.script.*;
@@ -36,15 +37,23 @@ public class ChickenFeatherPicker extends PollingScript<ClientContext> implement
         log.info("Welcome to the basic chicken feather picker for Lumbridge farm!");
 
         totalChickenFeathersPickedUp = 0;
-        taskList.addAll(Arrays.asList(new TakeGroundItemTask(ctx)));
+        taskList.addAll(Arrays.asList(
+            new TakeGroundItemTask(ctx),
+            new AntiBanTask(ctx)
+        ));
     }
 
     @Override
     public void poll() {
-        // Actions only valid within Lumbridge for now
+        int ret;
+
+        // Actions are only valid within Lumbridge for now
         for (Task task : taskList) {
-            if (task.activate() && task.getClass().isAssignableFrom(TakeGroundItemTask.class)) {
-                totalChickenFeathersPickedUp += task.execute(LUMBRIDGE_CHICKEN_AREA);
+            if (task.activate()) {
+                ret = task.execute(LUMBRIDGE_CHICKEN_AREA);
+                if (task.getClass().isAssignableFrom(TakeGroundItemTask.class)) {
+                    totalChickenFeathersPickedUp += ret;
+                }
             }
         }
     }
