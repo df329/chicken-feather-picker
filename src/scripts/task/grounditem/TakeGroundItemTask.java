@@ -19,13 +19,16 @@ public class TakeGroundItemTask extends Task<ClientContext> {
 
     @Override
     public boolean activate() {
-        if (ctx.inventory.isFull()) {
+        boolean chickenFeathersExistInInventory = ctx.inventory.select().id(chickenFeatherId).count(true) > 0;
+
+        // Full inventory with feather is okay
+        if (ctx.inventory.isFull() && !chickenFeathersExistInInventory) {
             System.out.println("Inventory full: dropping unwanted chicken loot.");
             DropItemsUtil.DropAllUnwantedChickenLoot(ctx);
         }
 
         // Inventory is not full, chicken feather exists and player is idle
-        return !ctx.inventory.isFull()
+        return (!ctx.inventory.isFull() || chickenFeathersExistInInventory)
             && !ctx.groundItems.select().id(chickenFeatherId).isEmpty()
             && ctx.players.local().animation() == playerIdle;
     }
