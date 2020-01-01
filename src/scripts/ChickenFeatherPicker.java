@@ -19,9 +19,13 @@ import java.util.List;
     description="Picks up chicken feathers at the Lumbridge farm"
 )
 public class ChickenFeatherPicker extends PollingScript<ClientContext> implements PaintListener {
+    // Version
+    private static final int MAJOR_VERSION = 1;
+    private static final int MINOR_VERSION = 0;
+    private static final int PATCH_VERSION = 0;
+
     private int totalChickenFeathersPickedUp;
     private List<Task> taskList = new ArrayList<Task>();
-
     private static final long START_TIME = System.currentTimeMillis();
 
     // Lumbridge chicken area, this does not encompass the gates or farm house
@@ -60,6 +64,11 @@ public class ChickenFeatherPicker extends PollingScript<ClientContext> implement
 
     @Override
     public void repaint(Graphics graphics) {
-        ChickenFeatherSummaryUi.ShowStatisticsSummary(graphics, START_TIME, totalChickenFeathersPickedUp);
+        ChickenFeatherSummaryUi.ShowStatisticsSummary(
+            graphics,
+            MAJOR_VERSION + "." + MINOR_VERSION + "." + PATCH_VERSION,
+            START_TIME,
+            totalChickenFeathersPickedUp
+        );
     }
 }

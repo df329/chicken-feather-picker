@@ -13,10 +13,11 @@ public class ChickenFeatherSummaryUi {
     /**
      * Shows the summary of the statistics for the chicken feather picker.
      * @param graphics graphics to draw on
+     * @param version script version
      * @param startTime start time of the script
      * @param totalChickenFeathersPickedUp total chicken feathers picked up successfully
      */
-    public static void ShowStatisticsSummary(Graphics graphics, long startTime, int totalChickenFeathersPickedUp) {
+    public static void ShowStatisticsSummary(Graphics graphics, String version, long startTime, int totalChickenFeathersPickedUp) {
         int feathersPerHr = 0;
         long runningTime = System.currentTimeMillis() - startTime;
         if (runningTime > HOURS.toMillis(1)) {
@@ -33,15 +34,20 @@ public class ChickenFeatherSummaryUi {
         graphics.setFont(new Font("Arial", Font.BOLD, 14));
         graphics.drawString(SUMMARY_TITLE, 10, 50);
 
+        // Version
+        graphics.setFont(new Font("Arial", Font.PLAIN, 10));
+        graphics.setColor(Color.WHITE);
+        graphics.drawString("(" + version + ")", 10, 60);
+
         graphics.setFont(new Font("Arial", Font.PLAIN, 13));
 
         // Total picked up feathers
         graphics.setColor(Color.WHITE);
-        graphics.drawString("Total Feathers: " + totalChickenFeathersPickedUp, 10, 75);
+        graphics.drawString("Total Feathers: " + totalChickenFeathersPickedUp, 10, 85);
 
         // Total picked up feathers per hour
         graphics.setColor(Color.WHITE);
-        graphics.drawString("Feathers/hr: " + feathersPerHr, 10, 90);
+        graphics.drawString("Feathers/hr: " + feathersPerHr, 10, 100);
 
         // Running time
         int runtime = Integer.parseInt("" + runningTime);
