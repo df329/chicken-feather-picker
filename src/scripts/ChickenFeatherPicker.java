@@ -22,7 +22,7 @@ public class ChickenFeatherPicker extends PollingScript<ClientContext> {
     private List<Task> taskList = new ArrayList<Task>();
 
     // Lumbridge chicken area, this does not encompass the gates or farm house
-    private static Area lumbridgeChickenArea = new Area(
+    private static final Area LUMBRIDGE_CHICKEN_AREA = new Area(
         new Tile(3235, 3300, 0), // NE
         new Tile(3235, 3295, 0), // SE
         new Tile(3225, 3295, 0), // SW
@@ -41,7 +41,7 @@ public class ChickenFeatherPicker extends PollingScript<ClientContext> {
         // Actions only valid within Lumbridge for now
         for (Task task : taskList) {
             if (task.activate()) {
-                task.execute(lumbridgeChickenArea);
+                task.execute(LUMBRIDGE_CHICKEN_AREA);
             }
         }
     }

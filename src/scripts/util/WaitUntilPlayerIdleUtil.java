@@ -7,7 +7,7 @@ import org.powerbot.script.rt4.ClientContext;
  * Utility class to wait until the player is idle.
  */
 public class WaitUntilPlayerIdleUtil {
-    private static int playerIdle = -1;
+    private static final int PLAYER_IDLE = -1;
 
     /**
      * Waits until the player is idle.
@@ -15,7 +15,7 @@ public class WaitUntilPlayerIdleUtil {
      * @param ctx client context
      */
     public static void Wait(ClientContext ctx) {
-        Condition.wait(() -> ctx.players.local().animation() == playerIdle, 500, 4);
+        Condition.wait(() -> ctx.players.local().animation() == PLAYER_IDLE, 500, 4);
     }
 
     /**
@@ -25,6 +25,6 @@ public class WaitUntilPlayerIdleUtil {
      * @param retries number of retries for waiting until idle
      */
     public static void Wait(ClientContext ctx, int waitInMs, int retries) {
-        Condition.wait(() -> ctx.players.local().animation() == playerIdle, waitInMs, retries);
+        Condition.wait(() -> ctx.players.local().animation() == PLAYER_IDLE, waitInMs, retries);
     }
 }

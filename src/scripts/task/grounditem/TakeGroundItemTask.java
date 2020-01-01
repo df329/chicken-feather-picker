@@ -11,8 +11,8 @@ import org.powerbot.script.rt4.GroundItem;
  * Take ground item (chicken feather) task.
  */
 public class TakeGroundItemTask extends Task<ClientContext> {
-    private static int chickenFeatherId = 314;
-    private static int playerIdle = -1;
+    private static final int CHICKEN_FEATHER_ID = 314;
+    private static final int PLAYER_IDLE = -1;
 
     public TakeGroundItemTask(ClientContext ctx) {
         super(ctx);
@@ -20,7 +20,7 @@ public class TakeGroundItemTask extends Task<ClientContext> {
 
     @Override
     public boolean activate() {
-        boolean chickenFeathersExistInInventory = ctx.inventory.select().id(chickenFeatherId).count(true) > 0;
+        boolean chickenFeathersExistInInventory = ctx.inventory.select().id(CHICKEN_FEATHER_ID).count(true) > 0;
 
         // Full inventory with feather is okay
         if (ctx.inventory.isFull() && !chickenFeathersExistInInventory) {
@@ -30,8 +30,8 @@ public class TakeGroundItemTask extends Task<ClientContext> {
 
         // Inventory is not full, chicken feather exists and player is idle
         return (!ctx.inventory.isFull() || chickenFeathersExistInInventory)
-            && !ctx.groundItems.select().id(chickenFeatherId).isEmpty()
-            && ctx.players.local().animation() == playerIdle;
+            && !ctx.groundItems.select().id(CHICKEN_FEATHER_ID).isEmpty()
+            && ctx.players.local().animation() == PLAYER_IDLE;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class TakeGroundItemTask extends Task<ClientContext> {
             return;
         }
 
-        int oldChickenFeatherCount = ctx.inventory.select().id(chickenFeatherId).count(true);
+        int oldChickenFeatherCount = ctx.inventory.select().id(CHICKEN_FEATHER_ID).count(true);
 
         // Move to the chicken feather if necessary
         if (!chickenFeather.inViewport()) {
@@ -80,6 +80,6 @@ public class TakeGroundItemTask extends Task<ClientContext> {
      * @return true if feather count increased
      */
     private boolean TakeChickenFeatherSuccessful(int oldChickenFeatherCount) {
-        return ctx.inventory.select().id(chickenFeatherId).count(true) > oldChickenFeatherCount;
+        return ctx.inventory.select().id(CHICKEN_FEATHER_ID).count(true) > oldChickenFeatherCount;
     }
 }
