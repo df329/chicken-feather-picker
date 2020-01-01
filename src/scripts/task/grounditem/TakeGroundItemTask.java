@@ -1,8 +1,9 @@
 package scripts.task.grounditem;
 
-import scripts.task.Task;
-import scripts.util.DropItemsUtil;
-import scripts.util.WaitUntilPlayerIdleUtil;
+import scripts.task.*;
+import scripts.util.*;
+
+import org.powerbot.script.Area;
 import org.powerbot.script.rt4.ClientContext;
 import org.powerbot.script.rt4.GroundItem;
 
@@ -34,8 +35,12 @@ public class TakeGroundItemTask extends Task<ClientContext> {
     }
 
     @Override
-    public void execute() {
-        GroundItem chickenFeather = ctx.groundItems.nearest().poll();
+    public void execute(Area area) {
+        GroundItem chickenFeather = ctx.groundItems.within(area).nearest().poll();
+        if (!chickenFeather.valid()) {
+            return;
+        }
+
         int oldChickenFeatherCount = ctx.inventory.select().id(chickenFeatherId).count(true);
 
         // Move to the chicken feather if necessary

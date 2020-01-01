@@ -1,5 +1,6 @@
 package scripts.task;
 
+import org.powerbot.script.Area;
 import org.powerbot.script.ClientAccessor;
 import org.powerbot.script.ClientContext;
 
@@ -19,7 +20,7 @@ public abstract class Task<C extends ClientContext> extends ClientAccessor<C> {
     public abstract boolean activate();
 
     /**
-     * Execute the action.
+     * Execute the action in the area.
      */
-    public abstract void execute();
+    public abstract void execute(Area area);
 }

@@ -41,5 +41,5 @@ A few limitations of this script which probably won't be addressed:
 
 * Attack modes - if you're a pure haha XD
 * Guarding against mis-clicks entering combat
-* Optimizations for certain locations
 * It won't go find a chicken feather pit sorry
+* ~~Optimizations for certain locations~~

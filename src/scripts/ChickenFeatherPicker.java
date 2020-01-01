@@ -2,9 +2,13 @@ package scripts;
 
 import scripts.task.Task;
 import scripts.task.grounditem.TakeGroundItemTask;
+
+import org.powerbot.script.Area;
 import org.powerbot.script.PollingScript;
+import org.powerbot.script.Tile;
 import org.powerbot.script.Script;
 import org.powerbot.script.rt4.ClientContext;
+
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +21,14 @@ import java.util.List;
 public class ChickenFeatherPicker extends PollingScript<ClientContext> {
     private List<Task> taskList = new ArrayList<Task>();
 
+    // Lumbridge chicken area, this does not encompass the gates or farm house
+    private static Area lumbridgeChickenArea = new Area(
+        new Tile(3235, 3300, 0), // NE
+        new Tile(3235, 3295, 0), // SE
+        new Tile(3225, 3295, 0), // SW
+        new Tile(3225, 3300, 0)  // NW
+    );
+
     @Override
     public void start() {
         log.info("Welcome to the basic chicken feather picker for Lumbridge farm!");
@@ -26,9 +38,10 @@ public class ChickenFeatherPicker extends PollingScript<ClientContext> {
 
     @Override
     public void poll() {
+        // Actions only valid within Lumbridge for now
         for (Task task : taskList) {
             if (task.activate()) {
-                task.execute();
+                task.execute(lumbridgeChickenArea);
             }
         }
     }
