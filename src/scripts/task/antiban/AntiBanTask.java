@@ -60,7 +60,7 @@ public class AntiBanTask extends Task<ClientContext> {
         }
 
         // Move mouse to the edges of the client
-        if (Random.nextInt(0, 10) == 3) {
+        if (Random.nextInt(0, 15) == 3) {
             int x;
             int y;
             switch (Random.nextInt(0, 4)) {

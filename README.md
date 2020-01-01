@@ -29,9 +29,7 @@ Feature wise it will remain the same, additional features will be spun of into t
   * Camera rotation
   * Mouse movements
   * Walking/idle actions
-* Drop non-feather items - mis-clicks etc.
 * Attack mode configuration
-* UI for number of feathers picked up
 * Door/gate issues
   * Difficult, probably some localization needed
 
