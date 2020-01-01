@@ -26,7 +26,7 @@ public class TakeGroundItemTask extends Task<ClientContext> {
         boolean chickenFeathersExistInInventory = ctx.inventory.select().id(CHICKEN_FEATHER_ID).count(true) > 0;
 
         // Full inventory with feather is okay
-        if (ctx.inventory.isFull() && !chickenFeathersExistInInventory) {
+        if (ctx.inventory.isFull()) {
             System.out.println("Inventory full: dropping unwanted chicken loot.");
             DropItemsUtil.DropAllUnwantedChickenLoot(ctx);
         }
