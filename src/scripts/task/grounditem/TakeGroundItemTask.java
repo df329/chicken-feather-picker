@@ -12,7 +12,6 @@ import org.powerbot.script.rt4.GroundItem;
  */
 public class TakeGroundItemTask extends Task<ClientContext> {
     private static final int CHICKEN_FEATHER_ID = 314;
-    private static final int PLAYER_IDLE = -1;
 
     public TakeGroundItemTask(ClientContext ctx) {
         super(ctx);
@@ -35,7 +34,7 @@ public class TakeGroundItemTask extends Task<ClientContext> {
         // Inventory is not full, chicken feather exists and player is idle
         return (!ctx.inventory.isFull() || chickenFeathersExistInInventory)
             && !ctx.groundItems.select().id(CHICKEN_FEATHER_ID).isEmpty()
-            && ctx.players.local().animation() == PLAYER_IDLE;
+            && ctx.players.local().animation() == CommonUtil.PLAYER_IDLE;
     }
 
     /**
@@ -45,7 +44,7 @@ public class TakeGroundItemTask extends Task<ClientContext> {
      */
     @Override
     public int execute(Area area) {
-        int chickedFeathersPickedUpCount = 0;
+        int chickenFeathersPickedUpCount = 0;
         GroundItem chickenFeather = ctx.groundItems.within(area).nearest().poll();
         if (!chickenFeather.valid()) {
             return 0;
@@ -56,22 +55,22 @@ public class TakeGroundItemTask extends Task<ClientContext> {
         // Move to the chicken feather if necessary
         if (!chickenFeather.inViewport()) {
             System.out.println("Moving to chicken feather.");
-            ctx.movement.step(chickenFeather);
             ctx.camera.turnTo(chickenFeather);
+            ctx.movement.step(chickenFeather);
         }
 
         WaitBeforeAndAfterTakeChickenFeather(chickenFeather);
-        chickedFeathersPickedUpCount = ChickenFeathersPickedUpCount(oldChickenFeatherCount);
+        chickenFeathersPickedUpCount = ChickenFeathersPickedUpCount(oldChickenFeatherCount);
 
         // Workaround to wait until taking chicken feather has completed
-        if (chickedFeathersPickedUpCount > 0) {
+        if (chickenFeathersPickedUpCount > 0) {
             System.out.println("Successful.");
         } else {
             System.out.println("Picking up chicken feather was unsuccessful.");
         }
 
         System.out.println("...");
-        return chickedFeathersPickedUpCount;
+        return chickenFeathersPickedUpCount;
     }
 
     /**

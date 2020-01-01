@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Script.Manifest(
-    name = "Chicken Feather Picker",
-    properties = "author=Machiavellianism; topic=1353781; client=4;",
-    description = "Picks up chicken feathers at the Lumbridge farm"
+    name="Chicken Feather Picker",
+    properties="author=Machiavellianism; topic=1353781; client=4;",
+    description="Picks up chicken feathers at the Lumbridge farm"
 )
 public class ChickenFeatherPicker extends PollingScript<ClientContext> implements PaintListener {
     private int totalChickenFeathersPickedUp;
@@ -43,7 +43,7 @@ public class ChickenFeatherPicker extends PollingScript<ClientContext> implement
     public void poll() {
         // Actions only valid within Lumbridge for now
         for (Task task : taskList) {
-            if (task.activate()) {
+            if (task.activate() && task.getClass().isAssignableFrom(TakeGroundItemTask.class)) {
                 totalChickenFeathersPickedUp += task.execute(LUMBRIDGE_CHICKEN_AREA);
             }
         }
