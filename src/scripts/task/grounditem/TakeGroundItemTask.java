@@ -18,6 +18,10 @@ public class TakeGroundItemTask extends Task<ClientContext> {
         super(ctx);
     }
 
+    /**
+     * Condition to pick up a chicken feather.
+     * @return true to pick up the chicken feather
+     */
     @Override
     public boolean activate() {
         boolean chickenFeathersExistInInventory = ctx.inventory.select().id(CHICKEN_FEATHER_ID).count(true) > 0;
@@ -34,11 +38,17 @@ public class TakeGroundItemTask extends Task<ClientContext> {
             && ctx.players.local().animation() == PLAYER_IDLE;
     }
 
+    /**
+     * Attempts to pick up a chicken feather in the area and returns the number picked up.
+     * @param area the area to execute the action
+     * @return the number of chicken feathers picked up from the action
+     */
     @Override
-    public void execute(Area area) {
+    public int execute(Area area) {
+        int chickedFeathersPickedUpCount = 0;
         GroundItem chickenFeather = ctx.groundItems.within(area).nearest().poll();
         if (!chickenFeather.valid()) {
-            return;
+            return 0;
         }
 
         int oldChickenFeatherCount = ctx.inventory.select().id(CHICKEN_FEATHER_ID).count(true);
@@ -51,15 +61,17 @@ public class TakeGroundItemTask extends Task<ClientContext> {
         }
 
         WaitBeforeAndAfterTakeChickenFeather(chickenFeather);
+        chickedFeathersPickedUpCount = ChickenFeathersPickedUpCount(oldChickenFeatherCount);
 
         // Workaround to wait until taking chicken feather has completed
-        if (TakeChickenFeatherSuccessful(oldChickenFeatherCount)) {
+        if (chickedFeathersPickedUpCount > 0) {
             System.out.println("Successful.");
         } else {
             System.out.println("Picking up chicken feather was unsuccessful.");
         }
 
         System.out.println("...");
+        return chickedFeathersPickedUpCount;
     }
 
     /**
@@ -75,11 +87,12 @@ public class TakeGroundItemTask extends Task<ClientContext> {
     }
 
     /**
-     * Check if the chicken feather count in the player's inventory has increased.
+     * Number of chicken feathers picked up.
      * @param oldChickenFeatherCount previous chicken feathers in inventory
-     * @return true if feather count increased
+     * @return number of chicken feathers picked up
      */
-    private boolean TakeChickenFeatherSuccessful(int oldChickenFeatherCount) {
-        return ctx.inventory.select().id(CHICKEN_FEATHER_ID).count(true) > oldChickenFeatherCount;
+    private int ChickenFeathersPickedUpCount(int oldChickenFeatherCount) {
+        int newChickenFeatherCount = ctx.inventory.select().id(CHICKEN_FEATHER_ID).count(true);
+        return newChickenFeatherCount > oldChickenFeatherCount ? newChickenFeatherCount - oldChickenFeatherCount: 0;
     }
 }

@@ -21,6 +21,8 @@ public abstract class Task<C extends ClientContext> extends ClientAccessor<C> {
 
     /**
      * Execute the action in the area.
+     * @param area the area to execute the action
+     * @return if greater than zero, the action was successful
      */
-    public abstract void execute(Area area);
+    public abstract int execute(Area area);
 }
